@@ -132,16 +132,28 @@ body{
     background:#fff;
 }
 
-/* ЧАТ */
+/* БЛОК ЧАТА */
 .chat-block{
     margin-top:20px;
+    display:flex;
+    justify-content:center;
 }
 
-.chat-block iframe{
-    width:100%;
-    height:450px;
-    border:none;
+/* КНОПКА ЧАТА */
+.chat-open-btn{
+    display:inline-block;
+    background:#DB7093;
+    color:#fff;
+    text-decoration:none;
+    padding:15px 35px;
     border-radius:12px;
+    font-size:18px;
+    font-weight:bold;
+    transition:0.2s;
+}
+
+.chat-open-btn:hover{
+    background:#c85f84;
 }
 </style>
 </head>
@@ -227,11 +239,11 @@ body{
     <!-- ЧАТ -->
     <div class="chat-block" id="chatBlock">
 
-        <iframe src="//4at-radio.chatovod.ru/"
-                frameborder="0"
-                marginheight="0"
-                marginwidth="0">
-        </iframe>
+        <a href="https://4at-radio.chatovod.ru/"
+           target="_blank"
+           class="chat-open-btn">
+            ОТКРЫТЬ ЧАТ
+        </a>
 
     </div>
 
@@ -308,7 +320,7 @@ function goBack(event){
     document.getElementById('mainContent').style.display = 'flex';
 
     /* показываем чат */
-    document.getElementById('chatBlock').style.display = 'block';
+    document.getElementById('chatBlock').style.display = 'flex';
 
     /* скрываем iframe */
     const frame = document.getElementById('siteFrame');
