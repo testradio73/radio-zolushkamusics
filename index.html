@@ -12,7 +12,7 @@ body{
     padding:15px;
     background:#fff;
     color:#000;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     display:flex;
     justify-content:center;
 }
@@ -22,12 +22,71 @@ body{
     width:900px;
 }
 
-/* БЛОК */
+/* ОСНОВНОЙ БЛОК */
 .block{
     background:#fff;
     padding:15px;
     border-radius:15px;
     box-shadow:0 0 15px rgba(0,0,0,0.1);
+    position:relative;
+}
+
+/* ВЕРХНЯЯ ПАНЕЛЬ */
+.top-panel{
+    display:flex;
+    justify-content:flex-end;
+    position:relative;
+    z-index:999999;
+    margin-bottom:15px;
+}
+
+/* КНОПКА */
+.group-btn{
+    background:#DB7093;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    color:#fff;
+    font-size:16px;
+}
+
+/* ВЫПАДАЮЩЕЕ МЕНЮ */
+.link-menu{
+    display:none;
+    flex-direction:column;
+    gap:8px;
+
+    background:#A9A9A9;
+    padding:12px;
+    border-radius:12px;
+
+    position:absolute;
+    top:55px;
+    right:0;
+
+    min-width:280px;
+
+    z-index:99999999;
+
+    box-shadow:0 0 20px rgba(0,0,0,0.25);
+}
+
+/* ССЫЛКИ */
+.link-menu a{
+    color:#DB7093;
+    text-decoration:none;
+    padding:10px;
+    background:#fff;
+    border-radius:6px;
+    border:1px solid #ddd;
+    font-weight:bold;
+    transition:0.2s;
+}
+
+.link-menu a:hover{
+    background:#f3f3f3;
 }
 
 /* РЯД */
@@ -35,8 +94,6 @@ body{
     display:flex;
     gap:15px;
     align-items:flex-start;
-    position:relative;
-    z-index:5;
 }
 
 /* ЛЕВАЯ ЧАСТЬ */
@@ -68,60 +125,11 @@ body{
 /* iframe сайта */
 #siteFrame{
     display:none;
-    width:715px;
+    width:100%;
     height:520px;
     border:none;
     border-radius:12px;
     background:#fff;
-}
-
-/* МЕНЮ */
-.side-panel{
-    width:150px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    position:relative;
-    z-index:9999;
-}
-
-/* КНОПКА */
-.group-btn{
-    background:#DB7093;
-    border:none;
-    padding:12px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-    color:#fff;
-}
-
-/* ВЫПАДАЮЩЕЕ МЕНЮ */
-.link-menu{
-    display:none;
-    flex-direction:column;
-    gap:8px;
-    background:#A9A9A9;
-    padding:12px;
-    border-radius:12px;
-
-    position:absolute;
-    top:60px;
-    left:0;
-
-    z-index:99999;
-
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-/* ССЫЛКИ */
-.link-menu a{
-    color:#DB7093;
-    text-decoration:none;
-    padding:8px;
-    background:#fff;
-    border-radius:6px;
-    border:1px solid #ddd;
 }
 
 /* ЧАТ */
@@ -143,6 +151,44 @@ body{
 <div class="container">
 <div class="block">
 
+    <!-- КНОПКА МЕНЮ -->
+    <div class="top-panel">
+
+        <button class="group-btn" onclick="toggleMenu()">
+            МЕНЮ
+        </button>
+
+        <!-- ВЫПАДАЮЩЕЕ МЕНЮ -->
+        <div class="link-menu" id="linkMenu">
+
+            <!-- ОТКРЫТЬ VOLNOREZ -->
+            <a href="#"
+               onclick="openSite(event)">
+                volnorez \ music-club-zolushka
+            </a>
+
+            <!-- чат+плеер-->
+            <a href="#"
+               onclick="goBack(event)">
+                 чат+плеер
+            </a>
+
+            <!-- VK -->
+            <a href="https://vk.com/zolushkamusics"
+               target="_blank">
+                VK группа Music Club Золушка
+            </a>
+
+            <!-- ИНФОРМАЦИЯ -->
+            <a href="https://vk.com/zolushkamusics?w=club198633668"
+               target="_blank">
+                Информация
+            </a>
+
+        </div>
+
+    </div>
+
     <div class="radio-row">
 
         <!-- ПЛЕЕР + БАННЕР -->
@@ -162,6 +208,7 @@ body{
                     <div class="volume"></div>
                     <div class="mutecontrol active"></div>
                 </div>
+
             </div>
 
             <!-- БАННЕР -->
@@ -172,44 +219,20 @@ body{
 
         </div>
 
-        <!-- iframe САЙТА -->
+        <!-- iframe -->
         <iframe id="siteFrame"></iframe>
-
-        <!-- МЕНЮ -->
-        <div class="side-panel">
-
-            <button class="group-btn" onclick="toggleMenu()">
-                МЕНЮ
-            </button>
-
-            <div class="link-menu" id="linkMenu">
-
-                <a href="#"
-                   onclick="openSite(event)">
-                    volnorez \ music-club-zolushka
-                </a>
-
-                <a href="https://vk.com/zolushkamusics" target="_blank">
-                    VK группа Music Club Золушка
-                </a>
-
-                <a href="https://vk.com/zolushkamusics?w=club198633668" target="_blank">
-                    Информация
-                </a>
-
-            </div>
-
-        </div>
 
     </div>
 
     <!-- ЧАТ -->
     <div class="chat-block" id="chatBlock">
+
         <iframe src="//4at-radio.chatovod.ru/"
                 frameborder="0"
                 marginheight="0"
                 marginwidth="0">
         </iframe>
+
     </div>
 
 </div>
@@ -220,14 +243,16 @@ body{
 <script>
 let menuTimer;
 
-/* открыть/закрыть меню */
+/* ОТКРЫТЬ / ЗАКРЫТЬ МЕНЮ */
 function toggleMenu(){
 
     const menu = document.getElementById('linkMenu');
 
     if(menu.style.display === 'flex'){
+
         menu.style.display = 'none';
         return;
+
     }
 
     menu.style.display = 'flex';
@@ -235,34 +260,61 @@ function toggleMenu(){
     clearTimeout(menuTimer);
 
     menuTimer = setTimeout(()=>{
+
         menu.style.display = 'none';
+
     },7000);
+
 }
 
-/* открыть сайт внутри страницы */
+/* ОТКРЫТЬ VOLNOREZ */
 function openSite(event){
 
     event.preventDefault();
 
-    // скрываем плеер и баннер
+    /* скрываем плеер и баннер */
     document.getElementById('mainContent').style.display = 'none';
 
-    // скрываем чат
+    /* скрываем чат */
     document.getElementById('chatBlock').style.display = 'none';
 
-    // показываем iframe
+    /* показываем iframe */
     const frame = document.getElementById('siteFrame');
 
     frame.style.display = 'block';
 
-    // загружаем сайт
+    /* загружаем сайт */
     frame.src = 'https://m.volnorez.com/music-club-zolushka';
 
-    // закрываем меню
+    /* закрываем меню */
     document.getElementById('linkMenu').style.display = 'none';
+
 }
 
-/* закрытие меню при клике вне */
+/* ВЕРНУТЬСЯ ОБРАТНО */
+function goBack(event){
+
+    event.preventDefault();
+
+    /* показываем плеер */
+    document.getElementById('mainContent').style.display = 'flex';
+
+    /* показываем чат */
+    document.getElementById('chatBlock').style.display = 'block';
+
+    /* скрываем iframe */
+    const frame = document.getElementById('siteFrame');
+
+    frame.style.display = 'none';
+
+    frame.src = '';
+
+    /* закрываем меню */
+    document.getElementById('linkMenu').style.display = 'none';
+
+}
+
+/* ЗАКРЫТИЕ МЕНЮ ПРИ КЛИКЕ ВНЕ */
 document.addEventListener('click', function(event){
 
     const menu = document.getElementById('linkMenu');
@@ -272,7 +324,9 @@ document.addEventListener('click', function(event){
         !menu.contains(event.target) &&
         !button.contains(event.target)
     ){
+
         menu.style.display = 'none';
+
     }
 
 });
