@@ -39,6 +39,12 @@ body{
     z-index:5;
 }
 
+/* ЛЕВАЯ ЧАСТЬ */
+#mainContent{
+    display:flex;
+    gap:15px;
+}
+
 /* ПЛЕЕР */
 #radioheart-player{
     width:400px;
@@ -59,6 +65,16 @@ body{
     display:block;
 }
 
+/* iframe сайта */
+#siteFrame{
+    display:none;
+    width:715px;
+    height:520px;
+    border:none;
+    border-radius:12px;
+    background:#fff;
+}
+
 /* МЕНЮ */
 .side-panel{
     width:150px;
@@ -66,7 +82,7 @@ body{
     flex-direction:column;
     gap:10px;
     position:relative;
-    z-index:10;
+    z-index:9999;
 }
 
 /* КНОПКА */
@@ -93,7 +109,7 @@ body{
     top:60px;
     left:0;
 
-    z-index:9999;
+    z-index:99999;
 
     box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
@@ -129,27 +145,35 @@ body{
 
     <div class="radio-row">
 
-        <!-- ПЛЕЕР -->
-        <div id="radioheart-player"
-             class="extra-elegant"
-             data-stream="https://listen.myrh.ru/id085314"
-             data-autostart="false"
-             data-volume="0.5">
+        <!-- ПЛЕЕР + БАННЕР -->
+        <div id="mainContent">
 
-            <div class="play-pause-container">
-                <div class="current-song marquee"></div>
-                <div class="play"></div>
-                <div class="pause hidden"></div>
-                <div class="volume"></div>
-                <div class="mutecontrol active"></div>
+            <!-- ПЛЕЕР -->
+            <div id="radioheart-player"
+                 class="extra-elegant"
+                 data-stream="https://listen.myrh.ru/id085314"
+                 data-autostart="false"
+                 data-volume="0.5">
+
+                <div class="play-pause-container">
+                    <div class="current-song marquee"></div>
+                    <div class="play"></div>
+                    <div class="pause hidden"></div>
+                    <div class="volume"></div>
+                    <div class="mutecontrol active"></div>
+                </div>
             </div>
+
+            <!-- БАННЕР -->
+            <div class="banner">
+                <img src="https://raw.githubusercontent.com/testradio73/radio-zolushkamusics/refs/heads/main/image.gif"
+                     alt="banner">
+            </div>
+
         </div>
 
-        <!-- БАННЕР -->
-        <div class="banner">
-            <img src="https://raw.githubusercontent.com/testradio73/radio-zolushkamusics/refs/heads/main/image.gif"
-                 alt="banner">
-        </div>
+        <!-- iframe САЙТА -->
+        <iframe id="siteFrame"></iframe>
 
         <!-- МЕНЮ -->
         <div class="side-panel">
@@ -160,10 +184,10 @@ body{
 
             <div class="link-menu" id="linkMenu">
 
-                <a href="https://vk.com/zolushkamusics?w=club198633668" target="_blank">
+                <a href="#"
+                   onclick="openSite(event)">
                     volnorez \ music-club-zolushka
                 </a>
-
 
                 <a href="https://vk.com/zolushkamusics" target="_blank">
                     VK группа Music Club Золушка
@@ -173,7 +197,6 @@ body{
                     Информация
                 </a>
 
-
             </div>
 
         </div>
@@ -181,13 +204,11 @@ body{
     </div>
 
     <!-- ЧАТ -->
-    <div class="chat-block">
+    <div class="chat-block" id="chatBlock">
         <iframe src="//4at-radio.chatovod.ru/"
                 frameborder="0"
                 marginheight="0"
-                marginwidth="0"
-                width="100%"
-                height="450">
+                marginwidth="0">
         </iframe>
     </div>
 
@@ -199,7 +220,9 @@ body{
 <script>
 let menuTimer;
 
+/* открыть/закрыть меню */
 function toggleMenu(){
+
     const menu = document.getElementById('linkMenu');
 
     if(menu.style.display === 'flex'){
@@ -216,13 +239,42 @@ function toggleMenu(){
     },7000);
 }
 
+/* открыть сайт внутри страницы */
+function openSite(event){
+
+    event.preventDefault();
+
+    // скрываем плеер и баннер
+    document.getElementById('mainContent').style.display = 'none';
+
+    // скрываем чат
+    document.getElementById('chatBlock').style.display = 'none';
+
+    // показываем iframe
+    const frame = document.getElementById('siteFrame');
+
+    frame.style.display = 'block';
+
+    // загружаем сайт
+    frame.src = 'https://volnorez.com/music-club-zolushka';
+
+    // закрываем меню
+    document.getElementById('linkMenu').style.display = 'none';
+}
+
+/* закрытие меню при клике вне */
 document.addEventListener('click', function(event){
+
     const menu = document.getElementById('linkMenu');
     const button = document.querySelector('.group-btn');
 
-    if(!menu.contains(event.target) && !button.contains(event.target)){
+    if(
+        !menu.contains(event.target) &&
+        !button.contains(event.target)
+    ){
         menu.style.display = 'none';
     }
+
 });
 </script>
 
